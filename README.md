@@ -59,7 +59,6 @@ backend/
 ├── src/test/java/com/todolist/backend/
 │   ├── controller/
 │   └── service/
-├── my-app/   # frontend independiente del backend (si se utiliza en el repositorio)
 ├── pom.xml
 └── mvnw / mvnw.cmd
 ```
@@ -99,40 +98,6 @@ http://localhost:8080/tasks
 java -jar .\target\backend-0.0.1-SNAPSHOT.jar
 ```
 
-## Ejemplo de uso general
-
-### Crear una tarea
-
-```http
-POST /tasks
-Content-Type: application/json
-
-{
-  "title": "Estudiar Spring Boot",
-  "description": "Revisar controller, service y repository",
-  "completed": false
-}
-```
-
-### Consultar tareas
-
-```http
-GET /tasks
-```
-
-### Respuesta esperada
-
-```json
-[
-  {
-    "id": 1,
-    "title": "Estudiar Spring Boot",
-    "description": "Revisar controller, service y repository",
-    "completed": false
-  }
-]
-```
-
 ## Documentación relacionada
 
 - `api.md`: documentación detallada de endpoints
@@ -148,4 +113,3 @@ GET /tasks
 ## Licencia
 
 Este proyecto está disponible bajo la licencia MIT.
-
