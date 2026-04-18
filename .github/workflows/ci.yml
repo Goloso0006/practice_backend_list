@@ -28,6 +28,9 @@ jobs:
 
       - name: 🔐 Dar permiso de ejecución a mvnw
         run: chmod +x mvnw
+        # chmod se usa en Linux/Unix para cambiar permisos.
+        # +x agrega el permiso de ejecución al archivo mvnw, que es el Maven Wrapper,
+        # un script que permite ejecutar Maven sin necesidad de instalación global.
 
       # paso 2
       - name: 🔧 Configurar Java
