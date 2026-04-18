@@ -1,66 +1,102 @@
-# To-Do List Backend (Spring Boot)
+# To-Do List Backend
 
-API REST para gestionar tareas (crear, listar, actualizar y eliminar) de una lista To-Do.
+[![Java 25](https://img.shields.io/badge/Java-25-orange.svg)](https://www.java.com/)
+[![Spring Boot 4.0.5](https://img.shields.io/badge/Spring%20Boot-4.0.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Maven](https://img.shields.io/badge/Maven-Build-C71A36.svg)](https://maven.apache.org/)
 
-## Descripcion general
+API REST desarrollada con Spring Boot para administrar una lista de tareas.
+Permite crear, consultar, actualizar y eliminar tareas desde un cliente HTTP o desde un frontend que consuma la API.
 
-Este proyecto expone endpoints HTTP para administrar tareas con la entidad `Task`.
-Cada tarea tiene:
+## ¿Qué hace este proyecto?
 
-- `id` (Long, autogenerado)
-- `title` (String)
-- `description` (String)
-- `completed` (Boolean)
+Este backend expone endpoints REST para trabajar con la entidad `Task`.
+Cada tarea almacena:
 
-La API sigue una arquitectura en capas (`Controller -> Service -> Repository -> DB`) y usa Spring Data JPA para persistencia.
+- `id`: identificador autogenerado
+- `title`: título de la tarea
+- `description`: descripción opcional o complementaria
+- `completed`: estado de finalización
 
-## Tecnologias usadas
+La aplicación sigue una arquitectura en capas para separar responsabilidades y utiliza Spring Data JPA para persistir la información en la base de datos.
 
-- Java (configurado en `pom.xml` con `java.version=25`)
+## Características principales
+
+- CRUD completo de tareas: crear, listar, actualizar y eliminar
+- Estructura en capas: `Controller`, `Service`, `Repository` y `Model`
+- Persistencia con JPA y ORM
+- Soporte para base de datos H2 en desarrollo y MySQL como alternativa
+- Uso de Maven Wrapper para ejecutar el proyecto sin instalar Maven globalmente
+- Código preparado para pruebas unitarias e integración
+- API sencilla de consumir desde Postman, frontend web o cualquier cliente HTTP
+
+## Tecnologías usadas
+
+- Java 25 (`java.version` definido en `pom.xml`)
 - Spring Boot 4.0.5
 - Spring Web MVC
 - Spring Data JPA
-- Lombok (`@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`)
-- H2 (runtime)
+- Lombok
+- H2 Database (runtime)
 - MySQL Connector/J (runtime)
-- Maven Wrapper (`mvnw`, `mvnw.cmd`)
+- Maven y Maven Wrapper (`mvnw`, `mvnw.cmd`)
 
-## Como ejecutar el proyecto
+## Estructura del proyecto
 
-1. Abre terminal en la raiz del proyecto.
-2. Compila y ejecuta la aplicacion:
+```text
+backend/
+├── src/main/java/com/todolist/backend/
+│   ├── BackendApplication.java
+│   ├── controller/
+│   │   └── TaskController.java
+│   ├── service/
+│   │   └── TaskService.java
+│   ├── repository/
+│   │   └── TaskRepository.java
+│   └── model/
+│       └── Task.java
+├── src/main/resources/
+│   └── application.properties
+├── src/test/java/com/todolist/backend/
+│   ├── controller/
+│   └── service/
+├── my-app/   # frontend independiente del backend (si se utiliza en el repositorio)
+├── pom.xml
+└── mvnw / mvnw.cmd
+```
+
+## Cómo ejecutar el proyecto
+
+### Requisitos previos
+
+- Java 25 instalado
+- Maven Wrapper disponible en el repositorio
+- Base de datos configurada si vas a usar MySQL
+
+### Ejecutar en modo desarrollo
+
+En Windows PowerShell:
 
 ```powershell
 .\mvnw.cmd spring-boot:run
 ```
 
-3. La API queda disponible (por defecto) en:
+En Linux o macOS:
 
-`http://localhost:8080/tasks`
+```bash
+./mvnw spring-boot:run
+```
 
-### Alternativa: empaquetar y ejecutar JAR
+La API quedará disponible en:
+
+```text
+http://localhost:8080/tasks
+```
+
+### Compilar y ejecutar el JAR
 
 ```powershell
 .\mvnw.cmd clean package
 java -jar .\target\backend-0.0.1-SNAPSHOT.jar
-```
-
-## Estructura basica del proyecto
-
-```text
-src/main/java/com/todolist/backend/
-|- BackendApplication.java
-|- controller/
-|  `- TaskController.java
-|- service/
-|  `- TaskService.java
-|- repository/
-|  `- TaskRepository.java
-`- model/
-   `- Task.java
-
-src/main/resources/
-`- application.properties
 ```
 
 ## Ejemplo de uso general
@@ -72,34 +108,44 @@ POST /tasks
 Content-Type: application/json
 
 {
-  "title": "Estudiar Spring",
-  "description": "Revisar controller y service",
+  "title": "Estudiar Spring Boot",
+  "description": "Revisar controller, service y repository",
   "completed": false
 }
 ```
 
-### Obtener tareas
+### Consultar tareas
 
 ```http
 GET /tasks
 ```
 
-Respuesta esperada:
+### Respuesta esperada
 
 ```json
 [
   {
     "id": 1,
-    "title": "Estudiar Spring",
-    "description": "Revisar controller y service",
+    "title": "Estudiar Spring Boot",
+    "description": "Revisar controller, service y repository",
     "completed": false
   }
 ]
 ```
 
-## Documentacion adicional
+## Documentación relacionada
 
-- Endpoints detallados: `api.md`
-- Arquitectura: `architecture.md`
-- Configuracion del entorno: `setup.md`
+- `api.md`: documentación detallada de endpoints
+- `architecture.md`: explicación de la arquitectura del backend
+- `setup.md`: configuración del entorno y variables necesarias
+
+## Autores
+
+**Proyecto Backend - To-Do List**
+
+- Marlon Alexander Imbajoa Canchala
+
+## Licencia
+
+Este proyecto está disponible bajo la licencia MIT.
 
