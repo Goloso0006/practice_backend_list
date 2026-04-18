@@ -26,6 +26,9 @@ jobs:
         # Clonamos el código del repositorio, máquina virtual
         uses: actions/checkout@v4
 
+      - name: 🔐 Dar permiso de ejecución a mvnw
+        run: chmod +x mvnw
+
       # paso 2
       - name: 🔧 Configurar Java
         uses: actions/setup-java@v4  # Configura el entorno Java.
@@ -57,6 +60,9 @@ jobs:
     steps:
       - name: 📥 Checkout del código
         uses: actions/checkout@v4
+
+      - name: 🔐 Dar permiso de ejecución a mvnw
+        run: chmod +x mvnw
 
       - name: 🔧 Configurar Java
         uses: actions/setup-java@v4
