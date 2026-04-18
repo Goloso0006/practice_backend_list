@@ -1,0 +1,123 @@
+﻿name: 🚀 CI - To-Do List App
+
+# Solo se ejecuta cuando haces push en la rama principal (main)
+on:
+  push:
+    branches: [main]
+# ----------------------------------------------------------------
+
+# Asegura que no haya ejecuciones simultaneas solo ejecuta ultimo commit
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+# ----------------------------------------------------------------
+
+# flujo de trabajo
+jobs:
+  # 1. encargará de realizar validaciones
+  backend-validation:
+    name: 🔍 Validación Backend (Java)
+    # ejecutará entorno virtual con Ubuntu (máquina virtual GitHub Actions proporcionará, V-reciente de Ubuntu)
+    runs-on: ubuntu-latest
+    # pasos
+    steps:
+      # paso 1
+      - name: 📥 Checkout del código
+        # Clonamos el código del repositorio, máquina virtual
+        uses: actions/checkout@v4
+
+      # paso 2
+      - name: 🔧 Configurar Java
+        uses: actions/setup-java@v4  # Configura el entorno Java.
+        # Especifica la configuración necesaria para Java
+        with:
+          java-version: '25'
+          distribution: 'temurin'  # Usamos la distribución Temurin de OpenJDK.
+
+      # paso 3
+      - name: 📦 Compilar Backend
+        run: ./mvnw clean compile
+        # clean -> Limpia el proyecto de cualquier archivo generado anteriormente
+        # compile -> Compila el código fuente del backend
+
+      # Compilar -> proceso de convertir código fuente en formato ejecutable o
+      # intermedio que una máquina o sistema pueda entender y ejecutar.
+
+      # paso 4
+      - name: 🧪 Ejecutar tests del Backend
+        run: ./mvnw test
+# ----------------------------------------------------------------
+
+  # 2. encargado de compilar el backend a JAR
+  backend-build:
+    name: 🏗️ Build Backend (JAR)
+    runs-on: ubuntu-latest
+    # solo se correrá cunado el anterior haya completado exitosamente
+    needs: backend-validation
+    steps:
+      - name: 📥 Checkout del código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+
+      # en este paso compilamos el JAR sin ejecutar tests.
+      - name: 🏗️ Construir JAR con Maven
+        run: ./mvnw clean package -DskipTests
+        # package -> empaqueta código compilado en archivo JAR (puedes ejecutar o distribuir)
+        # -DskipTests -> omite ejecución de los tests durante este paso
+
+      # en este paso sube el JAR generado paso anterior.
+      - name: 📤 Subir JAR a artifacts
+        # Subimos el archivo JAR generado como artefacto.
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          # El archivo JAR generado.
+          path: target/backend-0.0.1-SNAPSHOT.jar
+          # Los artefactos se mantendrán durante 30 días.
+          retention-days: 30
+
+        # Artefacto -> archivo generado durante el proceso de CI/CD el archivo .jar que has
+        # empaquetado, y que puedes descargar desde la interfaz de GitHub Actions.
+# ----------------------------------------------------------------
+
+  # 3. Resumen de la ejecución CI (resumen simple sin detalles adicionales).
+  summary:
+    name: 📋 Resumen CI
+    runs-on: ubuntu-latest
+    # ejecute siempre, independientemente de si los jobs son exitosos
+    if: always()
+    needs: [ backend-validation, backend-build ]
+    steps:
+      - name: 📊 Generar resumen
+        run: |
+          echo "### ✅ Pipeline CI Completada" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Estado de los jobs:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend Validation: ${{ needs.backend-validation.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend Build: ${{ needs.backend-build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts disponibles:**" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 backend-jar (JAR ejecutable)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Puedes descargar los artifacts desde la sección de Actions." >> $GITHUB_STEP_SUMMARY
+
+        # | -> indica que se van a ejecutar múltiples comandos en secuencia
+        # echo: Imprime o escribe un texto.
+        # ": Encierran el texto y permiten insertar variables dentro.
+        # >>: Añade (sin sobrescribir, append) el texto al archivo.
+        # $: Se usa para acceder al valor de una variable.
+        # {{ }}: Sintaxis para insertar expresiones dinámicas de GitHub Actions.
+        # ** **: poner en negrita.
+
+        # -> needs.backend-validation.result
+        # needs: palabra clave de GitHub Actions que se usa para definir dependencias entre jobs.
+        # backend-validation: nombre de un job.
+        # result: propiedad que representa el estado de ese job. [success, failure, cancelled]
+
+        # $GITHUB_STEP_SUMMARY: variable especial GitHub Actions, archivo almacena resumen del flujo de trabajo.
+        # resultados de los jobs y otros detalles se muestren de manera accesible.
