@@ -1,5 +1,5 @@
 # imagen oficial de OpenJDK 17 LTS - imagen ligera
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:17-alpine-jdk
 
 # Definir la variable JAR_FILE para el nombre del archivo JAR
 ARG JAR_FILE=target/app_list_task-0.0.1.jar
