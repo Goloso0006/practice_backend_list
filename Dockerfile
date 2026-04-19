@@ -1,14 +1,20 @@
-# imagen oficial de OpenJDK 17 LTS - imagen ligera
+# Etapa 1: compila el proyecto y genera el JAR dentro de Docker.
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+
+COPY mvnw mvnw
+COPY .mvn .mvn
+COPY pom.xml pom.xml
+RUN chmod +x mvnw
+
+COPY src src
+RUN ./mvnw clean package -DskipTests
+
+# Etapa 2: imagen final ligera para ejecutar la app.
 FROM amazoncorretto:17-alpine-jdk
+WORKDIR /app
 
-# Definir la variable JAR_FILE para el nombre del archivo JAR
-ARG JAR_FILE=target/app_list_task-0.0.1.jar
+COPY --from=builder /app/target/*.jar app_list.jar
 
-# Copiar el archivo JAR al contenedor
-COPY ${JAR_FILE} app_list.jar
-
-# Exponer el puerto 8080
 EXPOSE 8080
-
-# Configurar el contenedor para ejecutar el JAR
 ENTRYPOINT ["java", "-jar", "app_list.jar"]
