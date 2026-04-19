@@ -1,3 +1,4 @@
+# imagen oficial de OpenJDK 17 LTS - imagen ligera
 FROM openjdk:17-jdk-slim
 
 # Definir la variable JAR_FILE para el nombre del archivo JAR
