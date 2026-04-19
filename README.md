@@ -68,7 +68,7 @@ backend/
 
 ### Requisitos previos
 
-- Java 25 instalado
+- Java 17 instalado
 - Maven Wrapper disponible en el repositorio
 - Base de datos configurada si vas a usar MySQL
 
