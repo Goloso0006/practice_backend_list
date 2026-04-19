@@ -1,8 +1,9 @@
 # To-Do List Backend
 
-[![Java 25](https://img.shields.io/badge/Java-25-orange.svg)](https://www.java.com/)
+[![Java 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.java.com/)
 [![Spring Boot 4.0.5](https://img.shields.io/badge/Spring%20Boot-4.0.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-Build-C71A36.svg)](https://maven.apache.org/)
+[![CI - To-Do List App](https://github.com/Goloso0006/practice_backend_list/actions/workflows/ci.yml/badge.svg)](https://github.com/Goloso0006/practice_backend_list/actions/workflows/ci.yml)
 
 API REST desarrollada con Spring Boot para administrar una lista de tareas.
 Permite crear, consultar, actualizar y eliminar tareas desde un cliente HTTP o desde un frontend que consuma la API.
@@ -31,7 +32,7 @@ La aplicación sigue una arquitectura en capas para separar responsabilidades y 
 
 ## Tecnologías usadas
 
-- Java 25 (`java.version` definido en `pom.xml`)
+- Java 17 (`java.version` definido en `pom.xml`)
 - Spring Boot 4.0.5
 - Spring Web MVC
 - Spring Data JPA

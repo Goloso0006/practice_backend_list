@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-java@v4  # Configura el entorno Java.
         # Especifica la configuración necesaria para Java
         with:
-          java-version: '25'
+          java-version: '17'
           distribution: 'temurin'  # Usamos la distribución Temurin de OpenJDK.
 
       # paso 3
@@ -70,7 +70,7 @@ jobs:
       - name: 🔧 Configurar Java
         uses: actions/setup-java@v4
         with:
-          java-version: '25'
+          java-version: '17'
           distribution: 'temurin'
 
       # en este paso compilamos el JAR sin ejecutar tests.
