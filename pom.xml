@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.todolist</groupId>
-	<artifactId>backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name/>
+	<artifactId>app_list_task</artifactId>
+	<version>0.0.1</version>
+    <name>list_task</name>
 	<description/>
 	<url/>
 	<licenses>
