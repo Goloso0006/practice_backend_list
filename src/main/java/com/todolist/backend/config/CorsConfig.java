@@ -21,7 +21,8 @@ public class CorsConfig implements WebMvcConfigurer {
                         "http://localhost:5173",      // Frontend local (Vite)
                         "http://localhost:3000",      // Frontend local (alternativo)
                         "http://127.0.0.1:5173",      // localhost alternativo
-                        "http://127.0.0.1:3000"       // localhost alternativo
+                        "http://127.0.0.1:3000",      // localhost alternativo
+                        "https://practice-frontend-list.vercel.app" // Frontend producción (Vercel)
                 )
                 // URL del frontend en producción (cambiar cuando sepas el dominio exacto)
                 // IMPORTANTE: Actualizar después del deploy en Vercel
